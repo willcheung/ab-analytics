@@ -1,0 +1,109 @@
+.grid-container {
+	padding:10px;
+	font-size:1.1em;
+}
+.grid-selectors {
+	width:100%;
+	padding:10px 0 0 15px;
+	text-align:center;
+	margin-top:10px;
+}
+.filter-unit {
+	clear:both;
+  padding: 20px;
+	margin: 15px 0 0px 25px;
+  background-color: #f0f0f0;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+	display:block;
+	cursor:pointer;
+}
+.filter-unit:after {
+  clear: both;
+  content: " ";
+  display: block;
+  height: 0;
+  visibility: hidden;
+}
+.filter-unit h5 {
+	font-size: 13px;
+	letter-spacing:1px;
+	color: #555;
+	text-transform: uppercase;
+	float: left;
+	width: 250px;
+}
+	.filter-unit h5 a {
+		padding-left: 20px;
+		display:block;
+		text-decoration: none;
+		color: #555;
+	}
+	#closed-filter.filter-unit h5 a {
+		background: url("/assets/icon-filter.png") no-repeat scroll left -587px transparent;
+	}
+	#opened-filter.filter-unit h5 a {
+		background: url("/assets/icon-filter.png") no-repeat scroll left -287px transparent;
+	}
+	.filter-unit h5 a:hover {
+		text-decoration: none;
+	}
+.filter-unit h6 {
+	margin-left:28px;
+	letter-spacing:1px;
+}
+.filter-unit p, .filter-unit li {
+	float: left;
+  font-size: 13px;
+  font-weight: 200;
+}
+.filter-unit ul.dashboard-filters {
+	margin-bottom: 20px;
+}
+	.filter-unit ul.dashboard-filters li.filter-container {
+		width: 250px;
+	}
+	.filter-unit ul.dashboard-filters li{
+		list-style: none outside none;
+		float: left;
+		width: 120px;
+		display:inline;
+		font-weight:bold;
+	}
+	.filter-unit ul.dashboard-filters li a {
+	  display:block;
+		padding-left: 20px;
+	}
+	.filter-unit ul.dashboard-filters li.active a {
+	  color: #444;
+	}
+	.filter-unit ul.dashboard-filters li.active {
+	  background: url("/assets/icon-filter.png") no-repeat scroll 3px -20px #ccc;
+		-webkit-border-radius: 4px;
+	  -moz-border-radius: 4px;
+	  border-radius: 4px;
+	}
+	.filter-unit ul.dashboard-filters li a:hover {
+		background: url("/assets/icon-filter.png") no-repeat scroll 3px 4px #fff;
+	  text-decoration: none;
+		color: #111;
+		-webkit-border-radius: 4px;
+	  -moz-border-radius: 4px;
+	  border-radius: 4px;
+	}
+	.filter-unit ul.dashboard-filters li.active a:hover {
+		color: #444;
+		background: url("/assets/icon-filter.png") no-repeat scroll 3px -20px #ccc;
+	}
+		.filter-unit ul.dashboard-filters li ul{
+			float:none;
+			width:auto;
+		}
+		.filter-unit ul.dashboard-filters li li{
+			line-height:20px;
+		}
+.filter-unit #apply-filters{
+	letter-spacing: 1px;
+	text-transform: uppercase;
+}

@@ -1,0 +1,63 @@
+#search {
+  height: 160px;
+  margin: 0 auto;
+  position: relative;
+  top: 20px;
+  width: 600px;
+	text-align: center;
+}
+input#test_placeholder {
+  background: none repeat scroll 0 0 #F1F1F1;
+  border-radius: 10px 10px 10px 10px;
+  box-shadow: 0 1px 1px #888 inset;
+	-webkit-box-shadow: 0 1px 1px #888 inset;
+	-moz-box-shadow: 0 1px 1px #888 inset;
+  color: #777777;
+  font-size: 20px;
+  height: 35px;
+  margin: 20px auto;
+  padding: 5px 0 5px 15px;
+  width: 480px;
+}
+.ui-autocomplete {
+	width: 480px;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  float: left;
+  padding: 4px 0;
+  margin: 0;
+  list-style: none;
+  background-color: #ffffff;
+  border-color: #ccc;
+  border-color: rgba(0, 0, 0, 0.2);
+  border-style: solid;
+  border-width: 1px;
+  -webkit-border-radius: 0 0 5px 5px;
+  -moz-border-radius: 0 0 5px 5px;
+  border-radius: 0 0 5px 5px;
+  -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  -webkit-background-clip: padding-box;
+  -moz-background-clip: padding;
+  background-clip: padding-box;
+  *border-right-width: 2px;
+  *border-bottom-width: 2px;
+}
+.ui-autocomplete a {
+  display: block;
+  padding: 3px 15px;
+  clear: both;
+  font-weight: normal;
+  line-height: 18px;
+  color: #555555;
+  white-space: nowrap;
+	font-size: 16px;
+	line-height: 20px;
+}
+.ui-autocomplete li.ui-menu-item a:hover {
+  color: #000;
+	text-decoration: none;
+}

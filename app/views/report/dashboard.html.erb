@@ -1,0 +1,310 @@
+<% if false and params[:selection] and params[:selection].split(",").size != @cells.size %>
+<div class="alert alert-error">
+	<p style="text-align:center"><strong>Invalid cell comparison!</strong> Setting comparison to first cell.</p>
+</div>
+<% end %>
+
+<% if !@data_retention.nil? %>
+<script>
+	// variables from server
+	var data_rtn  = <%= sanitize(@data_retention.gsub('\"','"')) %>;
+	var data_str  = <%= sanitize(@data_streaming.gsub('\"','"')) %>;
+	var highlighted = <%= sanitize(@highlighted.gsub('\"','"')) %>;
+	var highlighted_str = <%= sanitize(@highlighted_str.gsub('\"','"')) %>;
+	var cells = <%= @cells %>;
+	var cell_names = <%= sanitize(@cell_names) %>;
+	var selection = <%= @selection %>;
+</script>
+<% end %>
+
+
+<div class="row">
+
+	<div class="span2" style="margin-bottom:10px">
+		<h1>Test <%= @test_id %></h1>
+	</div>
+	
+	<div class="span6">
+		<h2><%= @test_name %></h2>
+	</div>
+	
+	<div class="span4">
+		<!-- <h3 class="muted"><small>Allocation Date:</small> Jan 1 - Jan 31 2012<a href="#" class="btn btn-mini" style="margin-left:8px;color:#777">Change</a></h3> -->
+		<h3 class="muted"><small>Allocation Date:</small>
+			<div id="date-range" style="float:right">
+      	<div id="date-range-field">
+	        <span style="left:6px;"></span>
+	        <a href="#" style="padding-top:0px;padding-bottom:2px">&#9660;</a>
+	      </div>
+	      <div id="datepicker-calendar" style="left:-95px"></div>
+    	</div>
+		</h3>
+	</div>
+	
+	<div id="closed-filter" class="filter-unit" onclick="$('#closed-filter').hide();$('#opened-filter').show();">
+		<h5><a href="#" onclick="$('#closed-filter').hide();$('#opened-filter').show();">Dashboard Filters</a></h5>
+		<ul class="dashboard-filters">
+			<li class="filter-container">
+				<h6>Allocation Region <i class="icon-question-sign" id="region-help" data-placement="bottom" data-content="If you'd like to view results for a specific subregion, select it here.<br/><br/> <strong>Note:</strong> In all cases, a subscribers activity is only counted if the activity happened in the same region as allocation." data-original-title="Allocation Region"></i></h6>
+				<ul><li><%= show_filter_selection(params[:region]) %></li></ul>
+			</li>
+			<li class="filter-container">
+				<h6>Allocation Plan Choice <i class="icon-question-sign" id="plan-help" data-placement="bottom" data-content="If you'd like to see results for only subs who have chosen a specific plan type, select it here.<br/><br/> <strong>Note:</strong> This is based on signup plan only. If a subscriber signed up with Plan Type A and changed to Plan Type B, he would be represented as Plan Type A." data-original-title="Allocation Plan Choice"></i></h6>
+				<ul><li><span class="badge"><%= PLAN_LABELS[params[:plan].to_sym]%></span></li></ul>
+			</li>
+			<li class="filter-container">
+				<h6>Allocation Period</h6>
+				<ul><li><span class="badge"><%= PERIOD_LABELS[params[:period].to_sym]%></span></li></ul>
+			</li>
+		</ul>
+	</div> <!-- .filter-unit -->
+		
+	<div id="opened-filter" class="filter-unit" style="display:none;" onclick="$('#closed-filter').show();$('#opened-filter').hide();">
+		<h5><a href="#" onclick="$('#closed-filter').show();$('#opened-filter').hide();">Dashboard Filters</a></h5>
+
+			<form id="dashboard_form" action="/report/dashboard" style="display:none;">
+				<input id="test" type="hidden" value="<%= params[:test] %>" name="test">
+				<input id="region" type="hidden" value="<%= params[:region] %>" name="region">
+				<input id="plan" type="hidden" value="<%= params[:plan] %>" name="plan">
+				<input id="period" type="hidden" value="<%= params[:period] %>" name="period">
+				<input id="device" type="hidden" value="<%= params[:device] %>" name="device">
+				<input id="selection" type="hidden" value="<%= params[:selection] %>" name="selection">
+				<input id="start_date" type="hidden" value="<%= params[:start_date] %>" name="start_date">
+				<input id="end_date" type="hidden" value="<%= params[:end_date] %>" name="end_date">
+			</form>
+
+		<ul class="dashboard-filters">
+			<li class="filter-container">
+			<h6>Allocation Region <i class="icon-question-sign" id="region-help-exp" data-placement="bottom" data-content="If you'd like to view results for a specific subregion, select it here.<br/><br/> <strong>Note:</strong> In all cases, a subscribers activity is only counted if the activity happened in the same region as allocation." data-original-title="Allocation Region"></i></h6>
+				<ul id="region">
+					<li <% if params[:region]=="all" %>class="active"<% end %> id="all"><a onclick="$(this).parent().addClass('active');if($(this).parent().hasClass('active'))$('input#region').val('all'); $(this).parent().siblings().removeClass('active'); return false;" href="#">All Regions</a></li>
+					<li <% if params[:region].include?("us") %>class="active"<% end %> id="us"><a onclick="$(this).parent().toggleClass('active');$('li#all').removeClass('active');serializeFiltersForDashboard('region'); return false;" href="#">US</a></li>
+					<li <% if params[:region].include?("ca") %>class="active"<% end %> id="ca"><a onclick="$(this).parent().toggleClass('active');$('li#all').removeClass('active');serializeFiltersForDashboard('region'); return false;" href="#">CA</a></li>
+					<li <% if params[:region].include?("latam") %>class="active"<% end %> id="latam"><a onclick="$(this).parent().toggleClass('active');$('li#all').removeClass('active');serializeFiltersForDashboard('region'); return false;" href="#">LatAm</a></li>
+					<li <% if params[:region].include?("ukie") %>class="active"<% end %> id="ukie"><a onclick="$(this).parent().toggleClass('active');$('li#all').removeClass('active');serializeFiltersForDashboard('region'); return false;" href="#">UK / IE</a></li>
+				</ul>
+			</li>
+
+			<li class="filter-container">
+			<h6>Allocation Plan Choice <i class="icon-question-sign" id="plan-help-exp" data-placement="bottom" data-content="If you'd like to see results for only subs who have chosen a specific plan type, select it here.<br/><br/> <strong>Note:</strong> This is based on signup plan only. If a subscriber signed up with Plan Type A and changed to Plan Type B, he would be represented as Plan Type A." data-original-title="Allocation Plan Choice"></i></h6>
+				<ul>
+					<li <% if params[:plan]=="all" %>class="active"<% end %>><a onclick="$(this).parent().addClass('active');if($(this).parent().hasClass('active'))$('input#plan').val('all'); $(this).parent().siblings().removeClass('active'); return false;" href="#">All Plans</a></li>
+					<li <% if params[:plan]=="streaming" %>class="active"<% end %>><a onclick="$(this).parent().addClass('active');if($(this).parent().hasClass('active'))$('input#plan').val('streaming'); $(this).parent().siblings().removeClass('active'); return false;" href="#">Streaming Only</a></li>
+					<li <% if params[:plan]=="hybrid" %>class="active"<% end %>><a onclick="$(this).parent().addClass('active');if($(this).parent().hasClass('active'))$('input#plan').val('hybrid'); $(this).parent().siblings().removeClass('active'); return false;" href="#">Hybrid</a></li>
+				</ul>
+			</li>
+
+			<li class="filter-container">
+			<h6>Allocation Period</h6>
+				<ul>
+					<li <% if params[:period]=="recent" %>class="active"<% end %>><a onclick="$(this).parent().addClass('active');if($(this).parent().hasClass('active'))$('input#period').val('recent'); $(this).parent().siblings().removeClass('active'); return false;" href="#">Most Recent</a></li>
+					<li <% if params[:period]=="p1" %>class="active"<% end %>><a onclick="$(this).parent().addClass('active');if($(this).parent().hasClass('active'))$('input#period').val('p1'); $(this).parent().siblings().removeClass('active'); return false;" href="#">P1 Only</a></li>
+					<li <% if params[:period]=="p2" %>class="active"<% end %>><a onclick="$(this).parent().addClass('active');if($(this).parent().hasClass('active'))$('input#period').val('p2'); $(this).parent().siblings().removeClass('active'); return false;" href="#">P2 Only</a></li>
+					<li <% if params[:period]=="p3" %>class="active"<% end %>><a onclick="$(this).parent().addClass('active');if($(this).parent().hasClass('active'))$('input#period').val('p3'); $(this).parent().siblings().removeClass('active'); return false;" href="#">P3 Only</a></li>
+					<li <% if params[:period]=="p1p2" %>class="active"<% end %>><a onclick="$(this).parent().addClass('active');if($(this).parent().hasClass('active'))$('input#period').val('p1p2'); $(this).parent().siblings().removeClass('active'); return false;" href="#">P1+P2</a></li>
+					<li <% if params[:period]=="p1p2p3" %>class="active"<% end %>><a onclick="$(this).parent().addClass('active');if($(this).parent().hasClass('active'))$('input#period').val('p1p2p3'); $(this).parent().siblings().removeClass('active'); return false;" href="#">P1+P2+P3</a></li>
+				</ul>
+			</li>
+		</ul>
+
+		<div id="apply-filters">
+			<a class="btn btn-primary btn-small" onclick="$('form#dashboard_form').submit(); return false;" href="#">Apply Filters</a>
+		</div>
+
+	</div> <!-- .filter-unit -->
+		
+<% if @data_retention.nil? %>
+	<div class="alert alert-error span12">
+		<p style="text-align:center">Oops.  Selected filters did not return any data.</p>
+	</div>
+<% else %>
+	<!-- Retention Grid starts here -->
+	
+	<!-- Cell Comparison Selector usually clubbed with Retention grid -->
+	<div class="span12 grid-selectors">
+		<p style="float:left;width:215px;font-size:13px;font-weight:200;line-height:24px;letter-spacing:1px">Select Comparison Cell:</p>
+		<% @cells.each_with_index do |c,i| %>
+		<div style="width:100px;float:left;">
+		<SELECT class='dk cell-dropdown' name="cell_<%=c%>" id="cell_index_<%= i %>" tabindex="1">
+			<% @cells.each_with_index do |value,j| %>
+			<OPTION value="<%= value %>" <%= "selected=selected" if @selection[i].to_i==value.to_i %>><%= value.to_s %></OPTION>
+			<% end %>
+		</SELECT>
+		</div>
+		<% end %>
+	</div>
+	
+	<div class="span4">
+		<h4>Retention Metrics</h4>
+	</div>
+	
+	<div class="span12" style="margin-top:10px;margin-bottom:20px;">
+		<div class="grid-container">
+			<div id="rtn-grid" style="clear:both;overflow: hidden; outline: 0px none; position: relative;"></div>
+		</div>
+	</div>
+	
+	<!-- Streaming Grid starts here -->
+	
+	<div class="span2" style="margin-top:8px">
+		<h4>Streaming Thresholds</h4>
+	</div>
+	
+	<div class="span10" style="height:35px;">
+		<ul class="nav nav-tabs">
+		  <li <% if params[:device]=="overall" %>class="active"<% end %>><a onclick="$(this).parent().addClass('active');if($(this).parent().hasClass('active'))$('input#device').val('overall'); $(this).parent().siblings().removeClass('active');$('form#dashboard_form').submit();return false;" href="#">Overall</a></li>
+		  <li <% if params[:device]=="pcmac" %>class="active"<% end %>><a onclick="$(this).parent().addClass('active');if($(this).parent().hasClass('active'))$('input#device').val('pcmac'); $(this).parent().siblings().removeClass('active');$('form#dashboard_form').submit();return false;" href="#">PC/Mac</a></li>
+			<li <% if params[:device]=="ps3" %>class="active"<% end %>><a onclick="$(this).parent().addClass('active');if($(this).parent().hasClass('active'))$('input#device').val('ps3'); $(this).parent().siblings().removeClass('active');$('form#dashboard_form').submit();return false;" href="#">PS3</a></li>
+			<li <% if params[:device]=="wii" %>class="active"<% end %>><a onclick="$(this).parent().addClass('active');if($(this).parent().hasClass('active'))$('input#device').val('wii'); $(this).parent().siblings().removeClass('active');$('form#dashboard_form').submit();return false;" href="#">Wii</a></li>
+			<li <% if params[:device]=="tablet" %>class="active"<% end %>><a onclick="$(this).parent().addClass('active');if($(this).parent().hasClass('active'))$('input#device').val('tablet'); $(this).parent().siblings().removeClass('active');$('form#dashboard_form').submit();return false;" href="#">Tablet</a></li>
+			<li <% if params[:device]=="mobile" %>class="active"<% end %>><a onclick="$(this).parent().addClass('active');if($(this).parent().hasClass('active'))$('input#device').val('mobile'); $(this).parent().siblings().removeClass('active');$('form#dashboard_form').submit();return false;" href="#">Mobile</a></li>
+			<li <% if params[:device]=="other" %>class="active"<% end %>><a onclick="$(this).parent().addClass('active');if($(this).parent().hasClass('active'))$('input#device').val('other'); $(this).parent().siblings().removeClass('active');$('form#dashboard_form').submit();return false;" href="#">Other</a></li>
+		</ul>
+	</div>
+	
+	<div class="span12" style="margin-top:10px">
+		<div class="grid-container" style="padding-top:0">
+			<div id="str-grid" style="clear:both;overflow: hidden; outline: 0px none; position: relative;"></div>
+		</div>
+	</div>
+
+<script>
+		// Serialize filters for multi-select filters
+		function serializeFiltersForDashboard(c) {
+			var a = "input#" + c;
+			$(a).val("");
+			var b = ",";
+			$("ul#" + c).children(".active").each(function (d) {
+				if (d < 1) {
+					b = ""
+				} else { b="," }
+				$(a).val($(a).val() + b + $(this).attr("id"))
+			})
+		};
+
+		// Stop filters from firing parent's onclick event
+		$(".filter-container a").click(function(e) {
+		   e.stopPropagation();
+		});
+		$("#apply-filters a").click(function(e) {
+		   e.stopPropagation();
+		});
+		
+		// Render date widget
+		var _from = new Date('<%=params[:start_date]%>');
+	  var _to = new Date('<%=params[:end_date]%>');
+		var from = new Date();
+		var to = new Date();
+		
+		// Need to add one date for some weird reason - TO DO: figure out why!
+		from.setDate(_from.getDate()+1) 
+		to.setDate(_to.getDate()+1)
+	
+		$('#datepicker-calendar').DatePicker({
+	    inline: true,
+	    date: [from, to],
+	    calendars: 2,
+	    mode: 'range',
+	    current: new Date(to.getFullYear(), to.getMonth(), 1),
+	    onChange: function(dates,el) {
+	      // update the range display
+	      $('#date-range-field span').text(dates[0].getMonthName(false)+' '+dates[0].getDate()+', '+dates[0].getFullYear()+' - '+
+	                                  dates[1].getMonthName(false)+' '+dates[1].getDate()+', '+dates[1].getFullYear());
+				$('input#start_date').val(dates[0].format("yyyy-mm-dd"));
+				$('input#end_date').val(dates[1].format("yyyy-mm-dd"));
+	    }
+	  });
+	
+		renderDateSelect(from,to);
+		
+		// (Help) Pop up boxes
+		$('#region-help').popover();
+		$('#plan-help').popover();
+		$('#region-help-exp').popover();
+		$('#plan-help-exp').popover();
+
+		// Build selection parameter
+		function get_selections (cell,value) {
+			selection[cell]=value;
+			return selection.toString();
+		};
+		
+		/********************
+		 Dropkick dropdown
+		********************/
+		// Initialize Dropdick
+		$(function () {
+	    $('.dk').dropkick();
+		});
+
+		// Create 'change' event
+		<% @cells.each_with_index do |c,i| %>
+			$('#cell_index_<%=i%>').dropkick({
+			  change: function (value, label) {
+					//window.location.href='?<%= "debug=#{params[:debug]}&" if params[:debug] %>'+'selection='+get_selections(<%=i%>,value);
+					if (/[?&]selection=([^&]+)/.test(document.URL)) {
+						window.location.href =  document.URL.replace(/[?&]selection=([^&]+)/,'&selection='+get_selections(<%=i%>,value));
+					}
+					else {
+						window.location.href = document.URL + '&selection='+get_selections(<%=i%>,value);
+					}
+			  }
+			});
+		<% end %>
+
+		/********************
+		 	SlickGrid
+		********************/
+		var columns_rtn = [{id:"metric", name:"", field:"metric", width: 220, cssClass: "text-right"}];
+		for (var i=0;i<cells.length;i++) {
+			columns_rtn.push({id:"cell_id_"+cells[i], name:cells[i]+"<br/>"+cell_names[i], field:"cell_id_"+cells[i], width: 100, cssClass: "text-right"});
+		}
+		
+		var columns_str = [{id:"metric", name:"", field:"metric", width: 220, cssClass: "text-right"}];
+		for (var i=0;i<cells.length;i++) {
+			columns_str.push({id:"cell_id_"+cells[i], name:cells[i], field:"cell_id_"+cells[i], width: 100, cssClass: "text-right"});
+		}
+
+		var options = {explicitInitialization: false,
+		      rowHeight: 25,
+		      defaultColumnWidth: 100,
+		      enableAddRow: false,
+		      leaveSpaceForNewRows: false,
+		      editable: false,
+		      autoEdit: true,
+		      enableCellNavigation: false,
+		      enableColumnReorder: false,
+		      asyncEditorLoading: false,
+		      asyncEditorLoadDelay: 100,
+		      forceFitColumns: false,
+		      enableAsyncPostRender: false,
+		      asyncPostRenderDelay: 60,
+		      autoHeight: true,
+		      editorLock: Slick.GlobalEditorLock,
+		      showHeaderRow: false,
+		      headerRowHeight: 25,
+		      showTopPanel: false,
+		      topPanelHeight: 25,
+		      formatterFactory: null,
+		      editorFactory: null,
+		      cellFlashingCssClass: "flashing",
+		      selectedCellCssClass: "selected",
+					cellHighlightCssClass: "highlighted",
+		      multiSelect: true,
+		      enableTextSelectionOnCells: false,
+		      dataItemColumnValueExtractor: null,
+		      fullWidthRows: false,
+		      multiColumnSort: false
+		};
+
+		var grid_rtn = new Slick.Grid("#rtn-grid", data_rtn, columns_rtn, options);
+		grid_rtn.setCellCssStyles("highlighted", highlighted);
+		
+		var grid_str = new Slick.Grid("#str-grid", data_str, columns_str, options);
+		grid_str.setCellCssStyles("highlighted", highlighted_str);
+		
+
+</script>
+<% end %>
+
+</div> <!-- .row -->

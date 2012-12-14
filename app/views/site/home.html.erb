@@ -1,0 +1,80 @@
+<script>
+	/* Autocomplete */
+	
+	$(function() {
+		var availableTests = <%= sanitize(@tests) %>;
+		$( "#test_placeholder" ).autocomplete({
+			source: availableTests,
+			autoFocus: true,
+			delay: 100
+			// select: function(event, ui) { 
+			// 	$.ajax({
+			// 	  url: "controller/action",
+			// 		data: "test="+ui.item.value.split(' ')[0]
+			// 	  success: function(){
+			// 	    $(this).addClass("done");
+			// 	  }
+			// 	});
+
+				//alert(ui.item.value); 
+			// }
+		});
+	});
+
+	
+</script>
+
+<div class="row" id="search">
+	<h2>Welcome to AB Analytics Portal</h2>
+	
+	<div id="form-container">
+		<form id="dashboard_form" action="/report/dashboard">
+		<input type="text" placeholder="Enter a test id or name" id="test_placeholder" name="test_placeholder">
+		<input type="hidden" id="test" name="test">
+		<input id="region" type="hidden" value="all" name="region">
+		<input id="plan" type="hidden" value="all" name="plan">
+		<input id="period" type="hidden" value="recent" name="period">
+		<input id="device" type="hidden" value="overall" name="device">
+		<input id="start_date" type="hidden" value="" name="start_date">
+		<input id="end_date" type="hidden" value="" name="end_date">
+		<br/>
+		<div id="date-range">
+      <div id="date-range-field">
+        <span style="left:-15px"></span>
+        <a href="#">&#9660;</a>
+      </div>
+      <div id="datepicker-calendar"></div>
+    </div>
+		<br/>
+		<input type="submit" value="Run Dashboard" onclick="$('input#test').val($('input#test_placeholder').val().split(' ')[0]);$('#dashboard_form').submit();return false;" name="commit" class="btn-large btn-primary">
+		</form>
+	</div>
+</div>
+
+<script>
+  /* Render date widget */
+	var tmp = new Date();
+	var to = new Date(tmp.getTime() - 1000 * 60 * 60 * 24 * 21);
+  var from = new Date(tmp.getTime() - 1000 * 60 * 60 * 24 * 28);
+	
+	$('#datepicker-calendar').DatePicker({
+    inline: true,
+    date: [from, to],
+    calendars: 2,
+    mode: 'range',
+    current: new Date(to.getFullYear(), to.getMonth(), 1),
+    onChange: function(dates,el) {
+      // update the range display
+      $('#date-range-field span').text(dates[0].getMonthName(false)+' '+dates[0].getDate()+', '+dates[0].getFullYear()+' - '+
+                                  dates[1].getMonthName(false)+' '+dates[1].getDate()+', '+dates[1].getFullYear());
+			$('input#start_date').val(dates[0].format("yyyy-mm-dd"));
+			$('input#end_date').val(dates[1].format("yyyy-mm-dd"));
+    }
+  });
+
+	// initialize form allocation start and end dates
+	$('input#start_date').val(from.format("yyyy-mm-dd"));
+	$('input#end_date').val(to.format("yyyy-mm-dd"));
+	
+	renderDateSelect(from,to);
+</script>

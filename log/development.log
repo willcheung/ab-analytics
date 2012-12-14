@@ -1,0 +1,952 @@
+
+
+Started GET "/report/dashboard?test=1234&region=us&plan=all&period=recent&device=pcmac&selection=&start_date=2012-11-15&end_date=2012-11-22" for 127.0.0.1 at 2012-12-13 21:08:03 -0800
+Processing by ReportController#dashboard as HTML
+  Parameters: {"test"=>"1234", "region"=>"us", "plan"=>"all", "period"=>"recent", "device"=>"pcmac", "selection"=>"", "start_date"=>"2012-11-15", "end_date"=>"2012-11-22"}
+  [1m[36m (7.0ms)[0m  [1mselect distinct(test_name), 
+ test_cell_id, 
+ test_cell_name 
+ from retention_agg where test_id=1234;[0m
+  [1m[35m (3.2ms)[0m  SELECT 
+ test_cell_id,
+ sum(num_allocations) as num_allocations,
+ sum(num_cancels) as num_cancels,
+ sum(num_period_starts) as num_period_starts,
+ sum(num_period_completes) as num_period_completes,
+ sum(sum_predicted_tenure) as sum_predicted_tenure,
+ sum(sum_predicted_tenure_sq) as sum_predicted_tenure_sq
+ FROM retention_agg 
+ WHERE test_id=1234 and period='P1' and allocation_region in ('United States') and initial_plan in ('Streaming Only','DVD Only','Hybrid') GROUP BY test_cell_id;
+  [1m[36m (13.9ms)[0m  [1mselect 
+ test_cell_id,
+ sum(num_allocations_ge_0_hrs) as ge_0_hrs,
+ sum(num_allocations_ge_1_hr) as ge_1_hr,
+ sum(num_allocations_ge_5_hrs) as ge_5_hrs,
+ sum(num_allocations_ge_10_hrs) as ge_10_hrs,
+ sum(num_allocations_ge_20_hrs) as ge_20_hrs,
+ sum(num_allocations_ge_40_hrs) as ge_40_hrs,
+ sum(num_allocations_ge_80_hrs) as ge_80_hrs
+ from streaming_agg 
+ where test_id=1234 and period='P1' and allocation_region in ('United States') and initial_plan in ('Streaming Only','DVD Only','Hybrid') and major_device_category in ('PC/Mac') group by test_cell_id;[0m
+  Rendered report/dashboard.html.erb within layouts/application (37.0ms)
+Completed 200 OK in 232ms (Views: 127.0ms | ActiveRecord: 24.1ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2012-12-13 21:08:03 -0800
+Served asset /application.css - 304 Not Modified (8ms)
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2012-12-13 21:08:03 -0800
+Served asset /bootstrap.css - 304 Not Modified (1ms)
+
+
+Started GET "/assets/datepicker.css?body=1" for 127.0.0.1 at 2012-12-13 21:08:03 -0800
+Served asset /datepicker.css - 304 Not Modified (1ms)
+
+
+Started GET "/assets/bootstrap-responsive.css?body=1" for 127.0.0.1 at 2012-12-13 21:08:03 -0800
+Served asset /bootstrap-responsive.css - 304 Not Modified (1ms)
+
+
+Started GET "/assets/dk-theme.css?body=1" for 127.0.0.1 at 2012-12-13 21:08:03 -0800
+Served asset /dk-theme.css - 304 Not Modified (1ms)
+
+
+Started GET "/assets/jquery-ui-smoothness.css?body=1" for 127.0.0.1 at 2012-12-13 21:08:03 -0800
+Served asset /jquery-ui-smoothness.css - 304 Not Modified (1ms)
+
+
+Started GET "/assets/report.css?body=1" for 127.0.0.1 at 2012-12-13 21:08:03 -0800
+Served asset /report.css - 304 Not Modified (3ms)
+
+
+Started GET "/assets/site.css?body=1" for 127.0.0.1 at 2012-12-13 21:08:03 -0800
+Served asset /site.css - 304 Not Modified (1ms)
+
+
+Started GET "/assets/bootstrap.min.js?body=1" for 127.0.0.1 at 2012-12-13 21:08:03 -0800
+Served asset /bootstrap.min.js - 304 Not Modified (2ms)
+
+
+Started GET "/assets/sg-theme.css?body=1" for 127.0.0.1 at 2012-12-13 21:08:03 -0800
+Served asset /sg-theme.css - 304 Not Modified (1ms)
+
+
+Started GET "/assets/date_format.js?body=1" for 127.0.0.1 at 2012-12-13 21:08:03 -0800
+Served asset /date_format.js - 304 Not Modified (2ms)
+
+
+Started GET "/assets/date_picker.js?body=1" for 127.0.0.1 at 2012-12-13 21:08:03 -0800
+Served asset /date_picker.js - 304 Not Modified (2ms)
+
+
+Started GET "/assets/jquery.blockUI.js?body=1" for 127.0.0.1 at 2012-12-13 21:08:03 -0800
+Served asset /jquery.blockUI.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/jquery.dropkick-1.0.0.js?body=1" for 127.0.0.1 at 2012-12-13 21:08:03 -0800
+Served asset /jquery.dropkick-1.0.0.js - 304 Not Modified (2ms)
+
+
+Started GET "/assets/jquery.event.drag-2.0.min.js?body=1" for 127.0.0.1 at 2012-12-13 21:08:03 -0800
+Served asset /jquery.event.drag-2.0.min.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/jquery.event.drop-2.0.min.js?body=1" for 127.0.0.1 at 2012-12-13 21:08:03 -0800
+Served asset /jquery.event.drop-2.0.min.js - 304 Not Modified (2ms)
+
+
+Started GET "/assets/site.js?body=1" for 127.0.0.1 at 2012-12-13 21:08:03 -0800
+Served asset /site.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/slick.core.js?body=1" for 127.0.0.1 at 2012-12-13 21:08:03 -0800
+Served asset /slick.core.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/slick.dataview.js?body=1" for 127.0.0.1 at 2012-12-13 21:08:03 -0800
+Served asset /slick.dataview.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/slick.editors.js?body=1" for 127.0.0.1 at 2012-12-13 21:08:03 -0800
+Served asset /slick.editors.js - 304 Not Modified (2ms)
+
+
+Started GET "/assets/slick.grid.js?body=1" for 127.0.0.1 at 2012-12-13 21:08:03 -0800
+Served asset /slick.grid.js - 304 Not Modified (4ms)
+
+
+Started GET "/assets/slick.plugin.autotooltips.js?body=1" for 127.0.0.1 at 2012-12-13 21:08:03 -0800
+Served asset /slick.plugin.autotooltips.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/slick.plugins.cellrangedecorator.js?body=1" for 127.0.0.1 at 2012-12-13 21:08:03 -0800
+Served asset /slick.plugins.cellrangedecorator.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/slick.plugins.cellrangeselector.js?body=1" for 127.0.0.1 at 2012-12-13 21:08:03 -0800
+Served asset /slick.plugins.cellrangeselector.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/slick.plugins.cellselectionmodel.js?body=1" for 127.0.0.1 at 2012-12-13 21:08:03 -0800
+Served asset /slick.plugins.cellselectionmodel.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2012-12-13 21:08:03 -0800
+Served asset /application.js - 304 Not Modified (12ms)
+
+
+Started GET "/report/dashboard?test=1234&region=us&plan=all&period=recent&device=ps3&selection=&start_date=2012-11-15&end_date=2012-11-22" for 127.0.0.1 at 2012-12-13 21:08:27 -0800
+Processing by ReportController#dashboard as HTML
+  Parameters: {"test"=>"1234", "region"=>"us", "plan"=>"all", "period"=>"recent", "device"=>"ps3", "selection"=>"", "start_date"=>"2012-11-15", "end_date"=>"2012-11-22"}
+  [1m[35m (7.1ms)[0m  select distinct(test_name), 
+ test_cell_id, 
+ test_cell_name 
+ from retention_agg where test_id=1234;
+  [1m[36m (2.8ms)[0m  [1mSELECT 
+ test_cell_id,
+ sum(num_allocations) as num_allocations,
+ sum(num_cancels) as num_cancels,
+ sum(num_period_starts) as num_period_starts,
+ sum(num_period_completes) as num_period_completes,
+ sum(sum_predicted_tenure) as sum_predicted_tenure,
+ sum(sum_predicted_tenure_sq) as sum_predicted_tenure_sq
+ FROM retention_agg 
+ WHERE test_id=1234 and period='P1' and allocation_region in ('United States') and initial_plan in ('Streaming Only','DVD Only','Hybrid') GROUP BY test_cell_id;[0m
+  [1m[35m (13.8ms)[0m  select 
+ test_cell_id,
+ sum(num_allocations_ge_0_hrs) as ge_0_hrs,
+ sum(num_allocations_ge_1_hr) as ge_1_hr,
+ sum(num_allocations_ge_5_hrs) as ge_5_hrs,
+ sum(num_allocations_ge_10_hrs) as ge_10_hrs,
+ sum(num_allocations_ge_20_hrs) as ge_20_hrs,
+ sum(num_allocations_ge_40_hrs) as ge_40_hrs,
+ sum(num_allocations_ge_80_hrs) as ge_80_hrs
+ from streaming_agg 
+ where test_id=1234 and period='P1' and allocation_region in ('United States') and initial_plan in ('Streaming Only','DVD Only','Hybrid') and major_device_category in ('PS3') group by test_cell_id;
+  Rendered report/dashboard.html.erb within layouts/application (3.0ms)
+Completed 200 OK in 88ms (Views: 13.6ms | ActiveRecord: 23.8ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2012-12-13 21:08:27 -0800
+Served asset /application.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/bootstrap-responsive.css?body=1" for 127.0.0.1 at 2012-12-13 21:08:27 -0800
+Served asset /bootstrap-responsive.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2012-12-13 21:08:27 -0800
+Served asset /bootstrap.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/datepicker.css?body=1" for 127.0.0.1 at 2012-12-13 21:08:27 -0800
+Served asset /datepicker.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/dk-theme.css?body=1" for 127.0.0.1 at 2012-12-13 21:08:27 -0800
+Served asset /dk-theme.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery-ui-smoothness.css?body=1" for 127.0.0.1 at 2012-12-13 21:08:27 -0800
+Served asset /jquery-ui-smoothness.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/report.css?body=1" for 127.0.0.1 at 2012-12-13 21:08:27 -0800
+Served asset /report.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/sg-theme.css?body=1" for 127.0.0.1 at 2012-12-13 21:08:27 -0800
+Served asset /sg-theme.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/site.css?body=1" for 127.0.0.1 at 2012-12-13 21:08:27 -0800
+Served asset /site.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/bootstrap.min.js?body=1" for 127.0.0.1 at 2012-12-13 21:08:27 -0800
+Served asset /bootstrap.min.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/date_format.js?body=1" for 127.0.0.1 at 2012-12-13 21:08:27 -0800
+Served asset /date_format.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/date_picker.js?body=1" for 127.0.0.1 at 2012-12-13 21:08:27 -0800
+Served asset /date_picker.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.blockUI.js?body=1" for 127.0.0.1 at 2012-12-13 21:08:27 -0800
+Served asset /jquery.blockUI.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.dropkick-1.0.0.js?body=1" for 127.0.0.1 at 2012-12-13 21:08:27 -0800
+Served asset /jquery.dropkick-1.0.0.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.event.drag-2.0.min.js?body=1" for 127.0.0.1 at 2012-12-13 21:08:27 -0800
+Served asset /jquery.event.drag-2.0.min.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.event.drop-2.0.min.js?body=1" for 127.0.0.1 at 2012-12-13 21:08:27 -0800
+Served asset /jquery.event.drop-2.0.min.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/site.js?body=1" for 127.0.0.1 at 2012-12-13 21:08:27 -0800
+Served asset /site.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/slick.core.js?body=1" for 127.0.0.1 at 2012-12-13 21:08:27 -0800
+Served asset /slick.core.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/slick.dataview.js?body=1" for 127.0.0.1 at 2012-12-13 21:08:27 -0800
+Served asset /slick.dataview.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/slick.editors.js?body=1" for 127.0.0.1 at 2012-12-13 21:08:27 -0800
+Served asset /slick.editors.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/slick.grid.js?body=1" for 127.0.0.1 at 2012-12-13 21:08:27 -0800
+Served asset /slick.grid.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/slick.plugin.autotooltips.js?body=1" for 127.0.0.1 at 2012-12-13 21:08:27 -0800
+Served asset /slick.plugin.autotooltips.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/slick.plugins.cellrangedecorator.js?body=1" for 127.0.0.1 at 2012-12-13 21:08:27 -0800
+Served asset /slick.plugins.cellrangedecorator.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/slick.plugins.cellrangeselector.js?body=1" for 127.0.0.1 at 2012-12-13 21:08:27 -0800
+Served asset /slick.plugins.cellrangeselector.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/slick.plugins.cellselectionmodel.js?body=1" for 127.0.0.1 at 2012-12-13 21:08:27 -0800
+Served asset /slick.plugins.cellselectionmodel.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2012-12-13 21:08:27 -0800
+Served asset /application.js - 304 Not Modified (0ms)
+
+
+Started GET "/report/dashboard?test=1234&region=us&plan=all&period=recent&device=pcmac&selection=&start_date=2012-11-15&end_date=2012-11-22" for 127.0.0.1 at 2012-12-13 21:08:53 -0800
+Processing by ReportController#dashboard as HTML
+  Parameters: {"test"=>"1234", "region"=>"us", "plan"=>"all", "period"=>"recent", "device"=>"pcmac", "selection"=>"", "start_date"=>"2012-11-15", "end_date"=>"2012-11-22"}
+  [1m[36m (7.2ms)[0m  [1mselect distinct(test_name), 
+ test_cell_id, 
+ test_cell_name 
+ from retention_agg where test_id=1234;[0m
+  [1m[35m (2.9ms)[0m  SELECT 
+ test_cell_id,
+ sum(num_allocations) as num_allocations,
+ sum(num_cancels) as num_cancels,
+ sum(num_period_starts) as num_period_starts,
+ sum(num_period_completes) as num_period_completes,
+ sum(sum_predicted_tenure) as sum_predicted_tenure,
+ sum(sum_predicted_tenure_sq) as sum_predicted_tenure_sq
+ FROM retention_agg 
+ WHERE test_id=1234 and period='P1' and allocation_region in ('United States') and initial_plan in ('Streaming Only','DVD Only','Hybrid') GROUP BY test_cell_id;
+  [1m[36m (14.2ms)[0m  [1mselect 
+ test_cell_id,
+ sum(num_allocations_ge_0_hrs) as ge_0_hrs,
+ sum(num_allocations_ge_1_hr) as ge_1_hr,
+ sum(num_allocations_ge_5_hrs) as ge_5_hrs,
+ sum(num_allocations_ge_10_hrs) as ge_10_hrs,
+ sum(num_allocations_ge_20_hrs) as ge_20_hrs,
+ sum(num_allocations_ge_40_hrs) as ge_40_hrs,
+ sum(num_allocations_ge_80_hrs) as ge_80_hrs
+ from streaming_agg 
+ where test_id=1234 and period='P1' and allocation_region in ('United States') and initial_plan in ('Streaming Only','DVD Only','Hybrid') and major_device_category in ('PC/Mac') group by test_cell_id;[0m
+  Rendered report/dashboard.html.erb within layouts/application (3.0ms)
+Completed 200 OK in 87ms (Views: 13.8ms | ActiveRecord: 24.3ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2012-12-13 21:08:53 -0800
+Served asset /application.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/bootstrap-responsive.css?body=1" for 127.0.0.1 at 2012-12-13 21:08:53 -0800
+Served asset /bootstrap-responsive.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery-ui-smoothness.css?body=1" for 127.0.0.1 at 2012-12-13 21:08:53 -0800
+Served asset /jquery-ui-smoothness.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/datepicker.css?body=1" for 127.0.0.1 at 2012-12-13 21:08:53 -0800
+Served asset /datepicker.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2012-12-13 21:08:53 -0800
+Served asset /bootstrap.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/dk-theme.css?body=1" for 127.0.0.1 at 2012-12-13 21:08:53 -0800
+Served asset /dk-theme.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/report.css?body=1" for 127.0.0.1 at 2012-12-13 21:08:53 -0800
+Served asset /report.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/site.css?body=1" for 127.0.0.1 at 2012-12-13 21:08:53 -0800
+Served asset /site.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/sg-theme.css?body=1" for 127.0.0.1 at 2012-12-13 21:08:53 -0800
+Served asset /sg-theme.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/bootstrap.min.js?body=1" for 127.0.0.1 at 2012-12-13 21:08:53 -0800
+Served asset /bootstrap.min.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/date_format.js?body=1" for 127.0.0.1 at 2012-12-13 21:08:53 -0800
+Served asset /date_format.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/date_picker.js?body=1" for 127.0.0.1 at 2012-12-13 21:08:53 -0800
+Served asset /date_picker.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.blockUI.js?body=1" for 127.0.0.1 at 2012-12-13 21:08:54 -0800
+Served asset /jquery.blockUI.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.dropkick-1.0.0.js?body=1" for 127.0.0.1 at 2012-12-13 21:08:54 -0800
+Served asset /jquery.dropkick-1.0.0.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.event.drag-2.0.min.js?body=1" for 127.0.0.1 at 2012-12-13 21:08:54 -0800
+Served asset /jquery.event.drag-2.0.min.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.event.drop-2.0.min.js?body=1" for 127.0.0.1 at 2012-12-13 21:08:54 -0800
+Served asset /jquery.event.drop-2.0.min.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/site.js?body=1" for 127.0.0.1 at 2012-12-13 21:08:54 -0800
+Served asset /site.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/slick.core.js?body=1" for 127.0.0.1 at 2012-12-13 21:08:54 -0800
+Served asset /slick.core.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/slick.dataview.js?body=1" for 127.0.0.1 at 2012-12-13 21:08:54 -0800
+Served asset /slick.dataview.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/slick.editors.js?body=1" for 127.0.0.1 at 2012-12-13 21:08:54 -0800
+Served asset /slick.editors.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/slick.grid.js?body=1" for 127.0.0.1 at 2012-12-13 21:08:54 -0800
+Served asset /slick.grid.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/slick.plugin.autotooltips.js?body=1" for 127.0.0.1 at 2012-12-13 21:08:54 -0800
+Served asset /slick.plugin.autotooltips.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/slick.plugins.cellrangedecorator.js?body=1" for 127.0.0.1 at 2012-12-13 21:08:54 -0800
+Served asset /slick.plugins.cellrangedecorator.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/slick.plugins.cellrangeselector.js?body=1" for 127.0.0.1 at 2012-12-13 21:08:54 -0800
+Served asset /slick.plugins.cellrangeselector.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2012-12-13 21:08:54 -0800
+Served asset /application.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/slick.plugins.cellselectionmodel.js?body=1" for 127.0.0.1 at 2012-12-13 21:08:54 -0800
+Served asset /slick.plugins.cellselectionmodel.js - 304 Not Modified (0ms)
+
+
+Started GET "/report/dashboard?test=1234&region=all&plan=all&period=recent&device=pcmac&selection=&start_date=2012-11-15&end_date=2012-11-22" for 127.0.0.1 at 2012-12-13 21:08:58 -0800
+Processing by ReportController#dashboard as HTML
+  Parameters: {"test"=>"1234", "region"=>"all", "plan"=>"all", "period"=>"recent", "device"=>"pcmac", "selection"=>"", "start_date"=>"2012-11-15", "end_date"=>"2012-11-22"}
+  [1m[35m (7.2ms)[0m  select distinct(test_name), 
+ test_cell_id, 
+ test_cell_name 
+ from retention_agg where test_id=1234;
+  [1m[36m (4.0ms)[0m  [1mSELECT 
+ test_cell_id,
+ sum(num_allocations) as num_allocations,
+ sum(num_cancels) as num_cancels,
+ sum(num_period_starts) as num_period_starts,
+ sum(num_period_completes) as num_period_completes,
+ sum(sum_predicted_tenure) as sum_predicted_tenure,
+ sum(sum_predicted_tenure_sq) as sum_predicted_tenure_sq
+ FROM retention_agg 
+ WHERE test_id=1234 and period='P1' and allocation_region in ('United States','UK/IE','Mexico','Latin America - Other','Canada','Brazil') and initial_plan in ('Streaming Only','DVD Only','Hybrid') GROUP BY test_cell_id;[0m
+  [1m[35m (15.4ms)[0m  select 
+ test_cell_id,
+ sum(num_allocations_ge_0_hrs) as ge_0_hrs,
+ sum(num_allocations_ge_1_hr) as ge_1_hr,
+ sum(num_allocations_ge_5_hrs) as ge_5_hrs,
+ sum(num_allocations_ge_10_hrs) as ge_10_hrs,
+ sum(num_allocations_ge_20_hrs) as ge_20_hrs,
+ sum(num_allocations_ge_40_hrs) as ge_40_hrs,
+ sum(num_allocations_ge_80_hrs) as ge_80_hrs
+ from streaming_agg 
+ where test_id=1234 and period='P1' and allocation_region in ('United States','UK/IE','Mexico','Latin America - Other','Canada','Brazil') and initial_plan in ('Streaming Only','DVD Only','Hybrid') and major_device_category in ('PC/Mac') group by test_cell_id;
+  Rendered report/dashboard.html.erb within layouts/application (3.3ms)
+Completed 200 OK in 67ms (Views: 13.7ms | ActiveRecord: 26.6ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2012-12-13 21:08:58 -0800
+Served asset /application.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2012-12-13 21:08:58 -0800
+Served asset /bootstrap.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/bootstrap-responsive.css?body=1" for 127.0.0.1 at 2012-12-13 21:08:58 -0800
+Served asset /bootstrap-responsive.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/datepicker.css?body=1" for 127.0.0.1 at 2012-12-13 21:08:58 -0800
+Served asset /datepicker.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/dk-theme.css?body=1" for 127.0.0.1 at 2012-12-13 21:08:58 -0800
+Served asset /dk-theme.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery-ui-smoothness.css?body=1" for 127.0.0.1 at 2012-12-13 21:08:58 -0800
+Served asset /jquery-ui-smoothness.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/report.css?body=1" for 127.0.0.1 at 2012-12-13 21:08:58 -0800
+Served asset /report.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/sg-theme.css?body=1" for 127.0.0.1 at 2012-12-13 21:08:58 -0800
+Served asset /sg-theme.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/site.css?body=1" for 127.0.0.1 at 2012-12-13 21:08:58 -0800
+Served asset /site.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/bootstrap.min.js?body=1" for 127.0.0.1 at 2012-12-13 21:08:58 -0800
+Served asset /bootstrap.min.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/date_format.js?body=1" for 127.0.0.1 at 2012-12-13 21:08:58 -0800
+Served asset /date_format.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/date_picker.js?body=1" for 127.0.0.1 at 2012-12-13 21:08:58 -0800
+Served asset /date_picker.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.blockUI.js?body=1" for 127.0.0.1 at 2012-12-13 21:08:58 -0800
+Served asset /jquery.blockUI.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.dropkick-1.0.0.js?body=1" for 127.0.0.1 at 2012-12-13 21:08:58 -0800
+Served asset /jquery.dropkick-1.0.0.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.event.drag-2.0.min.js?body=1" for 127.0.0.1 at 2012-12-13 21:08:58 -0800
+Served asset /jquery.event.drag-2.0.min.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.event.drop-2.0.min.js?body=1" for 127.0.0.1 at 2012-12-13 21:08:58 -0800
+Served asset /jquery.event.drop-2.0.min.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/site.js?body=1" for 127.0.0.1 at 2012-12-13 21:08:58 -0800
+Served asset /site.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/slick.core.js?body=1" for 127.0.0.1 at 2012-12-13 21:08:58 -0800
+Served asset /slick.core.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/slick.dataview.js?body=1" for 127.0.0.1 at 2012-12-13 21:08:58 -0800
+Served asset /slick.dataview.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/slick.editors.js?body=1" for 127.0.0.1 at 2012-12-13 21:08:58 -0800
+Served asset /slick.editors.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/slick.grid.js?body=1" for 127.0.0.1 at 2012-12-13 21:08:58 -0800
+Served asset /slick.grid.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/slick.plugin.autotooltips.js?body=1" for 127.0.0.1 at 2012-12-13 21:08:58 -0800
+Served asset /slick.plugin.autotooltips.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/slick.plugins.cellrangedecorator.js?body=1" for 127.0.0.1 at 2012-12-13 21:08:58 -0800
+Served asset /slick.plugins.cellrangedecorator.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/slick.plugins.cellrangeselector.js?body=1" for 127.0.0.1 at 2012-12-13 21:08:58 -0800
+Served asset /slick.plugins.cellrangeselector.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/slick.plugins.cellselectionmodel.js?body=1" for 127.0.0.1 at 2012-12-13 21:08:58 -0800
+Served asset /slick.plugins.cellselectionmodel.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2012-12-13 21:08:58 -0800
+Served asset /application.js - 304 Not Modified (0ms)
+
+
+Started GET "/report/dashboard?test=1234&region=all&plan=all&period=recent&device=ps3&selection=&start_date=2012-11-15&end_date=2012-11-22" for 127.0.0.1 at 2012-12-13 21:09:06 -0800
+Processing by ReportController#dashboard as HTML
+  Parameters: {"test"=>"1234", "region"=>"all", "plan"=>"all", "period"=>"recent", "device"=>"ps3", "selection"=>"", "start_date"=>"2012-11-15", "end_date"=>"2012-11-22"}
+  [1m[36m (7.2ms)[0m  [1mselect distinct(test_name), 
+ test_cell_id, 
+ test_cell_name 
+ from retention_agg where test_id=1234;[0m
+  [1m[35m (3.6ms)[0m  SELECT 
+ test_cell_id,
+ sum(num_allocations) as num_allocations,
+ sum(num_cancels) as num_cancels,
+ sum(num_period_starts) as num_period_starts,
+ sum(num_period_completes) as num_period_completes,
+ sum(sum_predicted_tenure) as sum_predicted_tenure,
+ sum(sum_predicted_tenure_sq) as sum_predicted_tenure_sq
+ FROM retention_agg 
+ WHERE test_id=1234 and period='P1' and allocation_region in ('United States','UK/IE','Mexico','Latin America - Other','Canada','Brazil') and initial_plan in ('Streaming Only','DVD Only','Hybrid') GROUP BY test_cell_id;
+  [1m[36m (15.1ms)[0m  [1mselect 
+ test_cell_id,
+ sum(num_allocations_ge_0_hrs) as ge_0_hrs,
+ sum(num_allocations_ge_1_hr) as ge_1_hr,
+ sum(num_allocations_ge_5_hrs) as ge_5_hrs,
+ sum(num_allocations_ge_10_hrs) as ge_10_hrs,
+ sum(num_allocations_ge_20_hrs) as ge_20_hrs,
+ sum(num_allocations_ge_40_hrs) as ge_40_hrs,
+ sum(num_allocations_ge_80_hrs) as ge_80_hrs
+ from streaming_agg 
+ where test_id=1234 and period='P1' and allocation_region in ('United States','UK/IE','Mexico','Latin America - Other','Canada','Brazil') and initial_plan in ('Streaming Only','DVD Only','Hybrid') and major_device_category in ('PS3') group by test_cell_id;[0m
+  Rendered report/dashboard.html.erb within layouts/application (3.1ms)
+Completed 200 OK in 87ms (Views: 34.1ms | ActiveRecord: 25.9ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2012-12-13 21:09:06 -0800
+Served asset /application.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/bootstrap-responsive.css?body=1" for 127.0.0.1 at 2012-12-13 21:09:06 -0800
+Served asset /bootstrap-responsive.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/datepicker.css?body=1" for 127.0.0.1 at 2012-12-13 21:09:06 -0800
+Served asset /datepicker.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2012-12-13 21:09:06 -0800
+Served asset /bootstrap.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/dk-theme.css?body=1" for 127.0.0.1 at 2012-12-13 21:09:06 -0800
+Served asset /dk-theme.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery-ui-smoothness.css?body=1" for 127.0.0.1 at 2012-12-13 21:09:06 -0800
+Served asset /jquery-ui-smoothness.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/report.css?body=1" for 127.0.0.1 at 2012-12-13 21:09:06 -0800
+Served asset /report.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/sg-theme.css?body=1" for 127.0.0.1 at 2012-12-13 21:09:06 -0800
+Served asset /sg-theme.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/site.css?body=1" for 127.0.0.1 at 2012-12-13 21:09:06 -0800
+Served asset /site.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/bootstrap.min.js?body=1" for 127.0.0.1 at 2012-12-13 21:09:06 -0800
+Served asset /bootstrap.min.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/date_format.js?body=1" for 127.0.0.1 at 2012-12-13 21:09:06 -0800
+Served asset /date_format.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/date_picker.js?body=1" for 127.0.0.1 at 2012-12-13 21:09:06 -0800
+Served asset /date_picker.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.blockUI.js?body=1" for 127.0.0.1 at 2012-12-13 21:09:06 -0800
+Served asset /jquery.blockUI.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.dropkick-1.0.0.js?body=1" for 127.0.0.1 at 2012-12-13 21:09:06 -0800
+Served asset /jquery.dropkick-1.0.0.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.event.drag-2.0.min.js?body=1" for 127.0.0.1 at 2012-12-13 21:09:06 -0800
+Served asset /jquery.event.drag-2.0.min.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.event.drop-2.0.min.js?body=1" for 127.0.0.1 at 2012-12-13 21:09:06 -0800
+Served asset /jquery.event.drop-2.0.min.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/site.js?body=1" for 127.0.0.1 at 2012-12-13 21:09:06 -0800
+Served asset /site.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/slick.core.js?body=1" for 127.0.0.1 at 2012-12-13 21:09:06 -0800
+Served asset /slick.core.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/slick.dataview.js?body=1" for 127.0.0.1 at 2012-12-13 21:09:06 -0800
+Served asset /slick.dataview.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/slick.editors.js?body=1" for 127.0.0.1 at 2012-12-13 21:09:06 -0800
+Served asset /slick.editors.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/slick.grid.js?body=1" for 127.0.0.1 at 2012-12-13 21:09:06 -0800
+Served asset /slick.grid.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/slick.plugin.autotooltips.js?body=1" for 127.0.0.1 at 2012-12-13 21:09:06 -0800
+Served asset /slick.plugin.autotooltips.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/slick.plugins.cellrangedecorator.js?body=1" for 127.0.0.1 at 2012-12-13 21:09:06 -0800
+Served asset /slick.plugins.cellrangedecorator.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/slick.plugins.cellrangeselector.js?body=1" for 127.0.0.1 at 2012-12-13 21:09:06 -0800
+Served asset /slick.plugins.cellrangeselector.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/slick.plugins.cellselectionmodel.js?body=1" for 127.0.0.1 at 2012-12-13 21:09:06 -0800
+Served asset /slick.plugins.cellselectionmodel.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2012-12-13 21:09:06 -0800
+Served asset /application.js - 304 Not Modified (0ms)
+
+
+Started GET "/report/dashboard?test=1234&region=all&plan=all&period=recent&device=tablet&selection=&start_date=2012-11-15&end_date=2012-11-22" for 127.0.0.1 at 2012-12-13 21:09:09 -0800
+Processing by ReportController#dashboard as HTML
+  Parameters: {"test"=>"1234", "region"=>"all", "plan"=>"all", "period"=>"recent", "device"=>"tablet", "selection"=>"", "start_date"=>"2012-11-15", "end_date"=>"2012-11-22"}
+  [1m[35m (7.3ms)[0m  select distinct(test_name), 
+ test_cell_id, 
+ test_cell_name 
+ from retention_agg where test_id=1234;
+  [1m[36m (3.6ms)[0m  [1mSELECT 
+ test_cell_id,
+ sum(num_allocations) as num_allocations,
+ sum(num_cancels) as num_cancels,
+ sum(num_period_starts) as num_period_starts,
+ sum(num_period_completes) as num_period_completes,
+ sum(sum_predicted_tenure) as sum_predicted_tenure,
+ sum(sum_predicted_tenure_sq) as sum_predicted_tenure_sq
+ FROM retention_agg 
+ WHERE test_id=1234 and period='P1' and allocation_region in ('United States','UK/IE','Mexico','Latin America - Other','Canada','Brazil') and initial_plan in ('Streaming Only','DVD Only','Hybrid') GROUP BY test_cell_id;[0m
+  [1m[35m (15.0ms)[0m  select 
+ test_cell_id,
+ sum(num_allocations_ge_0_hrs) as ge_0_hrs,
+ sum(num_allocations_ge_1_hr) as ge_1_hr,
+ sum(num_allocations_ge_5_hrs) as ge_5_hrs,
+ sum(num_allocations_ge_10_hrs) as ge_10_hrs,
+ sum(num_allocations_ge_20_hrs) as ge_20_hrs,
+ sum(num_allocations_ge_40_hrs) as ge_40_hrs,
+ sum(num_allocations_ge_80_hrs) as ge_80_hrs
+ from streaming_agg 
+ where test_id=1234 and period='P1' and allocation_region in ('United States','UK/IE','Mexico','Latin America - Other','Canada','Brazil') and initial_plan in ('Streaming Only','DVD Only','Hybrid') and major_device_category in ('Tablet') group by test_cell_id;
+  Rendered report/dashboard.html.erb within layouts/application (23.8ms)
+Completed 200 OK in 87ms (Views: 33.8ms | ActiveRecord: 25.9ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2012-12-13 21:09:09 -0800
+Served asset /application.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/bootstrap-responsive.css?body=1" for 127.0.0.1 at 2012-12-13 21:09:09 -0800
+Served asset /bootstrap-responsive.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2012-12-13 21:09:09 -0800
+Served asset /bootstrap.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/datepicker.css?body=1" for 127.0.0.1 at 2012-12-13 21:09:09 -0800
+Served asset /datepicker.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/dk-theme.css?body=1" for 127.0.0.1 at 2012-12-13 21:09:09 -0800
+Served asset /dk-theme.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery-ui-smoothness.css?body=1" for 127.0.0.1 at 2012-12-13 21:09:09 -0800
+Served asset /jquery-ui-smoothness.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/report.css?body=1" for 127.0.0.1 at 2012-12-13 21:09:09 -0800
+Served asset /report.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/sg-theme.css?body=1" for 127.0.0.1 at 2012-12-13 21:09:09 -0800
+Served asset /sg-theme.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/site.css?body=1" for 127.0.0.1 at 2012-12-13 21:09:09 -0800
+Served asset /site.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/bootstrap.min.js?body=1" for 127.0.0.1 at 2012-12-13 21:09:09 -0800
+Served asset /bootstrap.min.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/date_format.js?body=1" for 127.0.0.1 at 2012-12-13 21:09:09 -0800
+Served asset /date_format.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/date_picker.js?body=1" for 127.0.0.1 at 2012-12-13 21:09:09 -0800
+Served asset /date_picker.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.blockUI.js?body=1" for 127.0.0.1 at 2012-12-13 21:09:09 -0800
+Served asset /jquery.blockUI.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.dropkick-1.0.0.js?body=1" for 127.0.0.1 at 2012-12-13 21:09:09 -0800
+Served asset /jquery.dropkick-1.0.0.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.event.drop-2.0.min.js?body=1" for 127.0.0.1 at 2012-12-13 21:09:09 -0800
+Served asset /jquery.event.drop-2.0.min.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.event.drag-2.0.min.js?body=1" for 127.0.0.1 at 2012-12-13 21:09:09 -0800
+Served asset /jquery.event.drag-2.0.min.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/site.js?body=1" for 127.0.0.1 at 2012-12-13 21:09:09 -0800
+Served asset /site.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/slick.core.js?body=1" for 127.0.0.1 at 2012-12-13 21:09:09 -0800
+Served asset /slick.core.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/slick.dataview.js?body=1" for 127.0.0.1 at 2012-12-13 21:09:09 -0800
+Served asset /slick.dataview.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/slick.editors.js?body=1" for 127.0.0.1 at 2012-12-13 21:09:09 -0800
+Served asset /slick.editors.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/slick.grid.js?body=1" for 127.0.0.1 at 2012-12-13 21:09:09 -0800
+Served asset /slick.grid.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/slick.plugin.autotooltips.js?body=1" for 127.0.0.1 at 2012-12-13 21:09:09 -0800
+Served asset /slick.plugin.autotooltips.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/slick.plugins.cellrangedecorator.js?body=1" for 127.0.0.1 at 2012-12-13 21:09:09 -0800
+Served asset /slick.plugins.cellrangedecorator.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/slick.plugins.cellrangeselector.js?body=1" for 127.0.0.1 at 2012-12-13 21:09:09 -0800
+Served asset /slick.plugins.cellrangeselector.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/slick.plugins.cellselectionmodel.js?body=1" for 127.0.0.1 at 2012-12-13 21:09:09 -0800
+Served asset /slick.plugins.cellselectionmodel.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2012-12-13 21:09:09 -0800
+Served asset /application.js - 304 Not Modified (0ms)
+
+
+Started GET "/report/dashboard?test=1234&region=all&plan=all&period=recent&device=pcmac&selection=&start_date=2012-11-15&end_date=2012-11-22" for 127.0.0.1 at 2012-12-13 21:09:11 -0800
+Processing by ReportController#dashboard as HTML
+  Parameters: {"test"=>"1234", "region"=>"all", "plan"=>"all", "period"=>"recent", "device"=>"pcmac", "selection"=>"", "start_date"=>"2012-11-15", "end_date"=>"2012-11-22"}
+  [1m[36m (7.2ms)[0m  [1mselect distinct(test_name), 
+ test_cell_id, 
+ test_cell_name 
+ from retention_agg where test_id=1234;[0m
+  [1m[35m (3.7ms)[0m  SELECT 
+ test_cell_id,
+ sum(num_allocations) as num_allocations,
+ sum(num_cancels) as num_cancels,
+ sum(num_period_starts) as num_period_starts,
+ sum(num_period_completes) as num_period_completes,
+ sum(sum_predicted_tenure) as sum_predicted_tenure,
+ sum(sum_predicted_tenure_sq) as sum_predicted_tenure_sq
+ FROM retention_agg 
+ WHERE test_id=1234 and period='P1' and allocation_region in ('United States','UK/IE','Mexico','Latin America - Other','Canada','Brazil') and initial_plan in ('Streaming Only','DVD Only','Hybrid') GROUP BY test_cell_id;
+  [1m[36m (15.0ms)[0m  [1mselect 
+ test_cell_id,
+ sum(num_allocations_ge_0_hrs) as ge_0_hrs,
+ sum(num_allocations_ge_1_hr) as ge_1_hr,
+ sum(num_allocations_ge_5_hrs) as ge_5_hrs,
+ sum(num_allocations_ge_10_hrs) as ge_10_hrs,
+ sum(num_allocations_ge_20_hrs) as ge_20_hrs,
+ sum(num_allocations_ge_40_hrs) as ge_40_hrs,
+ sum(num_allocations_ge_80_hrs) as ge_80_hrs
+ from streaming_agg 
+ where test_id=1234 and period='P1' and allocation_region in ('United States','UK/IE','Mexico','Latin America - Other','Canada','Brazil') and initial_plan in ('Streaming Only','DVD Only','Hybrid') and major_device_category in ('PC/Mac') group by test_cell_id;[0m
+  Rendered report/dashboard.html.erb within layouts/application (24.7ms)
+Completed 200 OK in 87ms (Views: 35.0ms | ActiveRecord: 25.9ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2012-12-13 21:09:12 -0800
+Served asset /application.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/dk-theme.css?body=1" for 127.0.0.1 at 2012-12-13 21:09:12 -0800
+Served asset /dk-theme.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery-ui-smoothness.css?body=1" for 127.0.0.1 at 2012-12-13 21:09:12 -0800
+Served asset /jquery-ui-smoothness.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2012-12-13 21:09:12 -0800
+Served asset /bootstrap.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/bootstrap-responsive.css?body=1" for 127.0.0.1 at 2012-12-13 21:09:12 -0800
+Served asset /bootstrap-responsive.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/datepicker.css?body=1" for 127.0.0.1 at 2012-12-13 21:09:12 -0800
+Served asset /datepicker.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/report.css?body=1" for 127.0.0.1 at 2012-12-13 21:09:12 -0800
+Served asset /report.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/sg-theme.css?body=1" for 127.0.0.1 at 2012-12-13 21:09:12 -0800
+Served asset /sg-theme.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/bootstrap.min.js?body=1" for 127.0.0.1 at 2012-12-13 21:09:12 -0800
+Served asset /bootstrap.min.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/site.css?body=1" for 127.0.0.1 at 2012-12-13 21:09:12 -0800
+Served asset /site.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/date_format.js?body=1" for 127.0.0.1 at 2012-12-13 21:09:12 -0800
+Served asset /date_format.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.blockUI.js?body=1" for 127.0.0.1 at 2012-12-13 21:09:12 -0800
+Served asset /jquery.blockUI.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/date_picker.js?body=1" for 127.0.0.1 at 2012-12-13 21:09:12 -0800
+Served asset /date_picker.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.dropkick-1.0.0.js?body=1" for 127.0.0.1 at 2012-12-13 21:09:12 -0800
+Served asset /jquery.dropkick-1.0.0.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.event.drag-2.0.min.js?body=1" for 127.0.0.1 at 2012-12-13 21:09:12 -0800
+Served asset /jquery.event.drag-2.0.min.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.event.drop-2.0.min.js?body=1" for 127.0.0.1 at 2012-12-13 21:09:12 -0800
+Served asset /jquery.event.drop-2.0.min.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/site.js?body=1" for 127.0.0.1 at 2012-12-13 21:09:12 -0800
+Served asset /site.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/slick.core.js?body=1" for 127.0.0.1 at 2012-12-13 21:09:12 -0800
+Served asset /slick.core.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/slick.dataview.js?body=1" for 127.0.0.1 at 2012-12-13 21:09:12 -0800
+Served asset /slick.dataview.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/slick.editors.js?body=1" for 127.0.0.1 at 2012-12-13 21:09:12 -0800
+Served asset /slick.editors.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/slick.grid.js?body=1" for 127.0.0.1 at 2012-12-13 21:09:12 -0800
+Served asset /slick.grid.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/slick.plugin.autotooltips.js?body=1" for 127.0.0.1 at 2012-12-13 21:09:12 -0800
+Served asset /slick.plugin.autotooltips.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/slick.plugins.cellrangedecorator.js?body=1" for 127.0.0.1 at 2012-12-13 21:09:12 -0800
+Served asset /slick.plugins.cellrangedecorator.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/slick.plugins.cellrangeselector.js?body=1" for 127.0.0.1 at 2012-12-13 21:09:12 -0800
+Served asset /slick.plugins.cellrangeselector.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/slick.plugins.cellselectionmodel.js?body=1" for 127.0.0.1 at 2012-12-13 21:09:12 -0800
+Served asset /slick.plugins.cellselectionmodel.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2012-12-13 21:09:12 -0800
+Served asset /application.js - 304 Not Modified (0ms)
