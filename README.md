@@ -14,15 +14,15 @@ A prototype analytics platform for analyzing and visualizing A/B testing results
 * [DropKick](https://github.com/JamieLottering/DropKick)
 
 ## Features
-* Includes fabricated data to play with
+* Includes fabricated data so you can start playing with the app right away
 * Calculates p-values (important for A/B testing!)
-* Predefined streaming and retention metrics
+* Predefined streaming and retention metrics in fabricated data
 * Ability to compare one cell with another cell (not just with control cell)
 * Built in filters for multiple dimensions, such as Region, Time Period, and Device
 * LDAP integration
 
 ## How it works
-* Restore MySQL backup
+* Restore MySQL backup (in data/ directory)
 * rake gems:install
 * rake db:migrate
 * rails server
